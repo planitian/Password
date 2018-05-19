@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.password.MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/Main_Toolbar"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y80"
+        app:contentInsetStart="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="0dp">
+
+        <Button
+            android:id="@+id/Main_rede"
+            android:layout_width="@dimen/y80"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:scaleType="centerCrop"
+            android:background="@drawable/rede1" />
+
+        <Button
+            android:id="@+id/Main_add"
+            android:layout_width="@dimen/y80"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginEnd="0.1dp"
+            android:background="@drawable/add_selector" />
+
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/Main_recy"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Main_Toolbar"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/Main_caozuo"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/y120"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/Main_recy"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+         android:visibility="visible"
+        >
+
+        <CheckBox
+            android:id="@+id/Main_all"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2.5"
+            android:text="@string/all"
+            android:textSize="26sp"
+            android:background="#FFEFD5"
+            />
+
+        <Button
+            android:id="@+id/Main_fanxuan"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+             android:text="@string/fanxuan"
+            android:textSize="26sp"
+            android:background="@drawable/main_menu"
+            />
+
+        <Button
+            android:id="@+id/Main_del"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+             android:text="@string/del"
+            android:textSize="26sp"
+            android:background="@color/Tomato"
+            />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
