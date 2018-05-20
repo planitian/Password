@@ -5,6 +5,7 @@ package com.example.administrator.password.Bean;
  */
 
 public class Main_data {
+    private int id;
     private  String leixing;
     private  String zhanghao;
     private  String password;
@@ -15,6 +16,14 @@ public class Main_data {
         this.leixing = leixing;
         this.zhanghao = zhanghao;
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Boolean getLeft() {

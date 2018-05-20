@@ -59,7 +59,6 @@ public class AEShelper {
             e.printStackTrace();
         }
         data = encrypt(data, password);
-        String resultt=data.toString();
         String result = byte2hex(data);
         return result;
     }
