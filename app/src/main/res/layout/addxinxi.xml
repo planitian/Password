@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/yellow"
+    >
+
+    <TextView
+        android:id="@+id/Label_leixing"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="@dimen/y50"
+        android:text="@string/leixing"
+        android:textSize="22sp"
+        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        />
+
+    <EditText
+        android:id="@+id/add_leixing"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x20"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Label_leixing"
+        app:layout_constraintLeft_toRightOf="@+id/Label_leixing"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Label_leixing"
+
+        />
+
+    <TextView
+        android:id="@+id/Label_zhanghao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="@dimen/y50"
+        android:text="@string/zhanghao"
+        android:textSize="22sp"
+        app:layout_constraintHorizontal_bias="0.06"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Label_leixing" />
+
+
+    <EditText
+        android:id="@+id/add_zhanghao"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x20"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Label_zhanghao"
+        app:layout_constraintLeft_toRightOf="@+id/Label_zhanghao"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/Label_zhanghao"
+        />
+
+    <TextView
+        android:id="@+id/Label_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/password"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Label_zhanghao"
+        android:layout_marginTop="@dimen/y50"
+        app:layout_constraintHorizontal_bias="0.06"
+        android:layout_marginRight="8dp"
+        />
+
+    <EditText
+        android:id="@+id/add_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/Label_password"
+        app:layout_constraintLeft_toRightOf="@+id/Label_password"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/Label_password"
+        android:layout_marginLeft="@dimen/x20"
+         />
+
+    <Button
+        android:id="@+id/Label_quxiao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/quxiao"
+        app:layout_constraintTop_toBottomOf="@+id/Label_password"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="30dp"
+        app:layout_constraintHorizontal_bias="0.16"
+        android:background="@drawable/label_button"
+
+        />
+
+    <Button
+        android:id="@+id/Label_queding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/queding"
+       app:layout_constraintLeft_toRightOf="@+id/Label_quxiao"
+        app:layout_constraintTop_toTopOf="@+id/Label_quxiao"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="0dp"
+        app:layout_constraintHorizontal_bias="0.8"
+        android:background="@drawable/label_button"
+        />
+
+
+</android.support.constraint.ConstraintLayout>

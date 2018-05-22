@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.administrator.password.MainActivity">
+    tools:context="com.example.administrator.password.Activity.MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/Main_Toolbar"
@@ -54,7 +54,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/Main_recy"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-         android:visibility="visible"
+         android:visibility="gone"
         >
 
         <CheckBox
