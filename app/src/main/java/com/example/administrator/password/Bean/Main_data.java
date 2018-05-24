@@ -6,16 +6,22 @@ package com.example.administrator.password.Bean;
 
 public class Main_data {
     private int id;
-    private  String leixing;
-    private  String zhanghao;
-    private  String password;
-    private  Boolean xuanze=false;
-    private Boolean  left=false;
+    private String leixing;
+    private String zhanghao;
+    private String password;
+    private Boolean xuanze = false;
+    private Boolean left = false;
 
     public Main_data(String leixing, String zhanghao, String password) {
         this.leixing = leixing;
         this.zhanghao = zhanghao;
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        String result = "leixing:" + leixing + "   zhanghao:" + zhanghao + "   password:" + password;
+        return result;
     }
 
     public int getId() {

@@ -20,7 +20,7 @@ public class Myslqdata extends SQLiteOpenHelper {
         String Create_Table = "create table Main (" +
                 "id integer primary key autoincrement," +
                 "leixing text," +
-                "zhanghao text,"+
+                "zhanghao text," +
                 "password text)";
         db.execSQL(Create_Table);
 

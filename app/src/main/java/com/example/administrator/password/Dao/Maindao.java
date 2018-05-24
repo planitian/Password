@@ -37,7 +37,7 @@ public class Maindao {
     }
 
     // 增加数据 用insert 方法
-    public static void Main_insert(Main_data main_data) {
+    public static long Main_insert(Main_data main_data) {
         myslqdata = new Myslqdata(context, "shuju", null, 1);
         String leixing = AEShelper.encrypt(main_data.getLeixing(), password);
         String zhanghao = AEShelper.encrypt(main_data.getZhanghao(), password);
@@ -47,8 +47,9 @@ public class Maindao {
         contentValues.put("leixing", leixing);
         contentValues.put("zhanghao", zhanghao);
         contentValues.put("password", pass);
-        sqLiteDatabase.insert("Main", null, contentValues);
+        long result=sqLiteDatabase.insert("Main", null, contentValues);
         sqLiteDatabase.close();
+        return result;
     }
 
     //增加数据 用sql语句
@@ -111,13 +112,20 @@ public class Maindao {
         List<Main_data> datas = new ArrayList<>();
         if (cursor.moveToFirst()) {
             for (int i = 0; i < cursor.getCount(); i++) {
-                cursor.move(i);
+                cursor.moveToPosition(i);
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String leixing = AEShelper.decrypt(cursor.getString(cursor.getColumnIndexOrThrow("leixing")), password);
-                String zhanghao = AEShelper.decrypt(cursor.getString(cursor.getColumnIndexOrThrow("zhanghao")), password);
+//                System.out.println("leixing"+leixing);
+                String zhanghao = AEShelper.decrypt(cursor.getString(2), password);
+//                System.out.println("zhanghao"+zhanghao);
                 String pass = AEShelper.decrypt(cursor.getString(cursor.getColumnIndexOrThrow("password")), password);
+//                System.out.println("pass"+pass);
+//                for (int j=0;j<cursor.getColumnCount();j++){
+//                    System.out.println("列名:"+cursor.getString(j));
+//                }
                 Main_data main_data = new Main_data(leixing, zhanghao, pass);
                 main_data.setId(id);
+                System.out.println("Main_data的数据"+main_data.toString());
                 datas.add(main_data);
             }
         }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.example.administrator.password.View.Itemview xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="@dimen/y128"
     android:orientation="horizontal">
     <include layout="@layout/item_content"
         />
@@ -9,4 +9,4 @@
          android:layout_width="@dimen/x576"
          android:layout_height="@dimen/y100"
          />
-</LinearLayout>
+</com.example.administrator.password.View.Itemview>

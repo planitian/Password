@@ -12,10 +12,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Scroller;
 
 import com.example.administrator.password.Bean.Main_data;
 import com.example.administrator.password.R;
+import com.example.administrator.password.View.Itemview;
 import com.example.administrator.password.WatchText.Main_TextWatcher;
 
 import java.util.List;
@@ -30,6 +32,8 @@ public class Main_adapter extends RecyclerView.Adapter {
     private int[] colors = new int[4];
     private Itemview view;
     private Scroller scroller;
+    private Boolean xuanze=false;
+
 
     //    private Main_TextWatcher main_textWatcher;
     public Main_adapter(Context context, List<Main_data> datas) {
@@ -47,7 +51,7 @@ public class Main_adapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        view = (Itemview) LayoutInflater.from(context).inflate(R.layout.item, parent, false);
+        view =(Itemview) LayoutInflater.from(context).inflate(R.layout.item, parent, false);
         view.setScroller(scroller);
         return new Main_viewholder(view);
     }
@@ -77,17 +81,22 @@ public class Main_adapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 main_data.setLeft(true);
                 main_viewholder.left.setBackgroundResource(R.drawable.right);
-                int left = view.getRight() - main_viewholder.left.getRight();
+                int left = view.getRight() - main_viewholder.zhanghao.getRight();
                 scroller.startScroll(view.getScrollX(), 0, left, 0, 500);
                 view.invalidate();
             }
         });
         //给要输入内容的Edittext添加内容观察者，调用下方的方法
         main_viewholder.zhanghao.setText(main_data.getZhanghao());
-        main_viewholder.leixing.addTextChangedListener(creat_main_textWatcher(main_data.getId(), "zhanghao"));
+        main_viewholder.zhanghao.addTextChangedListener(creat_main_textWatcher(main_data.getId(), "zhanghao"));
         //给要输入内容的Edittext添加内容观察者，调用下方的方法
         main_viewholder.password.setText(main_data.getPassword());
-        main_viewholder.leixing.addTextChangedListener(creat_main_textWatcher(main_data.getId(), "password"));
+        main_viewholder.password.addTextChangedListener(creat_main_textWatcher(main_data.getId(), "password"));
+       if (xuanze){
+           main_viewholder.xuanze.setVisibility(View.VISIBLE);
+       }else {
+           main_viewholder.xuanze.setVisibility(View.GONE);
+       }
     }
 
     @Override
@@ -119,30 +128,30 @@ public class Main_adapter extends RecyclerView.Adapter {
         return main_textWatcher;
     }
 
-    class Itemview extends View {
-        private Scroller scroller;
-
-        public Itemview(Context context) {
-            super(context);
-        }
-
-        public Itemview(Context context, @Nullable AttributeSet attrs) {
-            super(context, attrs);
-        }
-
-        public void setScroller(Scroller scroller) {
-            this.scroller = scroller;
-        }
-
-        @Override
-        public void computeScroll() {
-            super.computeScroll();
-            if (scroller.computeScrollOffset()) {
-//            out.println("scroller.getCurrX()",scroller.getCurrX());
-                scrollTo(scroller.getCurrX(), scroller.getCurrY());
-                invalidate();
-            }
-        }
-    }
+//    class Itemview extends LinearLayout{
+//        private Scroller scroller;
+//
+//        public Itemview(Context context) {
+//            super(context);
+//        }
+//
+//        public Itemview(Context context, @Nullable AttributeSet attrs) {
+//            super(context, attrs);
+//        }
+//
+//        public void setScroller(Scroller scroller) {
+//            this.scroller = scroller;
+//        }
+//
+//        @Override
+//        public void computeScroll() {
+//            super.computeScroll();
+//            if (scroller.computeScrollOffset()) {
+////            out.println("scroller.getCurrX()",scroller.getCurrX());
+//                scrollTo(scroller.getCurrX(), scroller.getCurrY());
+//                invalidate();
+//            }
+//        }
+//    }
 
 }
