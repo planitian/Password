@@ -35,6 +35,7 @@ public class AddFragment extends DialogFragment {
     private Button quxiao;
     private Button queding;
     private AddCallback addCallback;
+
     public AddFragment() {
     }
 
@@ -85,8 +86,8 @@ public class AddFragment extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-        if (context instanceof AddCallback){
-            addCallback=(AddCallback)context;
+        if (context instanceof AddCallback) {
+            addCallback = (AddCallback) context;
         }
     }
 
@@ -98,12 +99,12 @@ public class AddFragment extends DialogFragment {
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         window.setGravity(Gravity.CENTER);
         window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        WindowManager.LayoutParams layoutParams=window.getAttributes();
-        layoutParams.dimAmount=0;
+        WindowManager.LayoutParams layoutParams = window.getAttributes();
+        layoutParams.dimAmount = 0;
         window.setAttributes(layoutParams);
     }
 
-    public interface AddCallback{
+    public interface AddCallback {
         void noti();
     }
 }

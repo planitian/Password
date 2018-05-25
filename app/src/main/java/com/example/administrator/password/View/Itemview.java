@@ -12,7 +12,11 @@ import android.widget.Scroller;
 
 public class Itemview extends LinearLayout {
     private Scroller scroller;
+    private int position;
 
+    public void setPosition(int position) {
+        this.position = position;
+    }
     public Itemview(Context context) {
         super(context);
     }
@@ -25,6 +29,10 @@ public class Itemview extends LinearLayout {
         this.scroller = scroller;
     }
 
+    public Scroller getScroller() {
+        return scroller;
+    }
+
     @Override
     public void computeScroll() {
         super.computeScroll();
@@ -34,6 +42,7 @@ public class Itemview extends LinearLayout {
             invalidate();
         }
     }
+
 }
 
 

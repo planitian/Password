@@ -22,43 +22,52 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private Button rede;
-    private  Button add;
+    private Button add;
     private Main_adapter main_adapter;
     private List<Main_data> datas;
     private LinearLayout caozuo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar=(Toolbar)findViewById(R.id.Main_Toolbar);
-        recyclerView=(RecyclerView)findViewById(R.id.Main_recy);
-        rede=(Button)findViewById(R.id.Main_rede);
-        add=(Button)findViewById(R.id.Main_add);
-        caozuo=(LinearLayout)findViewById(R.id.Main_caozuo);
+        toolbar = (Toolbar) findViewById(R.id.Main_Toolbar);
+        recyclerView = (RecyclerView) findViewById(R.id.Main_recy);
+        rede = (Button) findViewById(R.id.Main_rede);
+        add = (Button) findViewById(R.id.Main_add);
+        caozuo = (LinearLayout) findViewById(R.id.Main_caozuo);
         //得到数据库中的所有数据 ，并以Bean的方式返回List<Main_data>
-        datas=Maindao.Main_queryall();
-         main_adapter=new Main_adapter(this,datas);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(this, LinearLayout.VERTICAL,false);
+        datas = Maindao.Main_queryall();
+        main_adapter = new Main_adapter(this, datas);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayout.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(main_adapter);
         Add_shijian(add);
         Rede_shijian(rede);
 
     }
+
     //添加add点击事件
-    public void Add_shijian(Button add){
+    public void Add_shijian(Button add) {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AddFragment addFragment=new AddFragment();
+                AddFragment addFragment = new AddFragment();
 
-                addFragment.show(getFragmentManager(),"addFragment");
+                addFragment.show(getFragmentManager(), "addFragment");
             }
         });
     }
+
     //添加rede点击事件
-    public  void Rede_shijian(Button rede){
-        caozuo.setVisibility(View.VISIBLE);
+    public void Rede_shijian(Button rede) {
+        rede.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                caozuo.setVisibility(View.VISIBLE);
+            }
+        });
+
 
     }
 
@@ -69,9 +78,9 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
 
     @Override
     public void noti() {
-        List<Main_data> temp=Maindao.Main_queryall();
+        List<Main_data> temp = Maindao.Main_queryall();
         datas.clear();
         datas.addAll(temp);
-         main_adapter.notifyDataSetChanged();
+        main_adapter.notifyDataSetChanged();
     }
 }

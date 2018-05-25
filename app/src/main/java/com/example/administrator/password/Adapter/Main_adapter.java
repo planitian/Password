@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +31,10 @@ public class Main_adapter extends RecyclerView.Adapter {
     private Context context;
     private List<Main_data> datas;
     private int[] colors = new int[4];
-    private Itemview view;
+    //    private Itemview view;
     private Scroller scroller;
-    private Boolean xuanze=false;
+    private Boolean xuanze = false;
+    private int a = 0;
 
 
     //    private Main_TextWatcher main_textWatcher;
@@ -40,24 +42,26 @@ public class Main_adapter extends RecyclerView.Adapter {
         super();
         this.context = context;
         this.datas = datas;
-        scroller = new Scroller(context);
+
         colors[0] = 0xff000000;
         colors[1] = 0xffffff00;
         colors[2] = 0xff00bfff;
-        colors[3] = 0xffc6e2ff;
+        colors[3] = 0xff191970;
 //        //创建edittext 内容观察者
 //        main_textWatcher=new Main_TextWatcher();
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        view =(Itemview) LayoutInflater.from(context).inflate(R.layout.item, parent, false);
+        Itemview view = (Itemview) LayoutInflater.from(context).inflate(R.layout.item, parent, false);
+        //为下方的view左滑 都生成一个新的scroller，并存到Itemview中，这样就可以一个view对应一个scroller，不会产生左滑错乱
+        scroller = new Scroller(context);
         view.setScroller(scroller);
         return new Main_viewholder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final Main_viewholder main_viewholder = (Main_viewholder) holder;
         final Main_data main_data = datas.get(position);
         main_viewholder.leixing.setText(main_data.getLeixing());
@@ -75,28 +79,36 @@ public class Main_adapter extends RecyclerView.Adapter {
             main_viewholder.left.setBackgroundResource(R.drawable.right);
         else
             main_viewholder.left.setBackgroundResource(R.drawable.left);
-        //弹出右边抽屉内容的动画，view 被我自定义了 在下方可看
-        main_viewholder.left.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                main_data.setLeft(true);
-                main_viewholder.left.setBackgroundResource(R.drawable.right);
-                int left = view.getRight() - main_viewholder.zhanghao.getRight();
-                scroller.startScroll(view.getScrollX(), 0, left, 0, 500);
-                view.invalidate();
-            }
-        });
+
         //给要输入内容的Edittext添加内容观察者，调用下方的方法
         main_viewholder.zhanghao.setText(main_data.getZhanghao());
         main_viewholder.zhanghao.addTextChangedListener(creat_main_textWatcher(main_data.getId(), "zhanghao"));
         //给要输入内容的Edittext添加内容观察者，调用下方的方法
         main_viewholder.password.setText(main_data.getPassword());
         main_viewholder.password.addTextChangedListener(creat_main_textWatcher(main_data.getId(), "password"));
-       if (xuanze){
-           main_viewholder.xuanze.setVisibility(View.VISIBLE);
-       }else {
-           main_viewholder.xuanze.setVisibility(View.GONE);
-       }
+        if (xuanze) {
+            main_viewholder.xuanze.setVisibility(View.VISIBLE);
+        } else {
+            main_viewholder.xuanze.setVisibility(View.GONE);
+        }
+        //弹出右边抽屉内容的动画，view 被我自定义了 在下方可看
+        main_viewholder.left.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!main_data.getLeft()) {
+                    main_data.setLeft(true);
+                    main_viewholder.left.setBackgroundResource(R.drawable.right);
+                    int left = main_viewholder.getView().getRight() - main_viewholder.zhanghao.getRight();
+                    ((Itemview) main_viewholder.getView()).getScroller().startScroll(main_viewholder.getView().getScrollX(), 0, left, 0, 500);
+                    main_viewholder.getView().invalidate();
+                } else {
+                    main_data.setLeft(false);
+                    main_viewholder.left.setBackgroundResource(R.drawable.left);
+                    ((Itemview) main_viewholder.getView()).getScroller().startScroll(main_viewholder.getView().getScrollX(), 0, -main_viewholder.getView().getScrollX(), 0, 500);
+                    main_viewholder.getView().invalidate();
+                }
+            }
+        });
     }
 
     @Override
@@ -110,6 +122,7 @@ public class Main_adapter extends RecyclerView.Adapter {
         private Button left;
         private EditText zhanghao;
         private EditText password;
+        private View view;
 
         public Main_viewholder(View itemView) {
             super(itemView);
@@ -118,6 +131,12 @@ public class Main_adapter extends RecyclerView.Adapter {
             left = (Button) itemView.findViewById(R.id.Main_left);
             zhanghao = (EditText) itemView.findViewById(R.id.Main_zhanghao);
             password = (EditText) itemView.findViewById(R.id.Main_password);
+            //将上面onCreateViewHolder中生成的item rootview都保存到这里，方便在onBindViewHolder中取出。
+            this.view = itemView;
+        }
+
+        public View getView() {
+            return view;
         }
     }
 

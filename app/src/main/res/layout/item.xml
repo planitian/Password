@@ -3,10 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/y128"
     android:orientation="horizontal">
-    <include layout="@layout/item_content"
-        />
-     <include layout="@layout/item_chouti"
-         android:layout_width="@dimen/x576"
-         android:layout_height="@dimen/y100"
-         />
+
+    <include layout="@layout/item_content" />
+
+    <include
+        layout="@layout/item_chouti"
+        android:layout_width="@dimen/x576"
+        android:layout_height="@dimen/y100" />
 </com.example.administrator.password.View.Itemview>
