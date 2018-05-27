@@ -114,10 +114,11 @@ public class Maindao {
             for (int i = 0; i < cursor.getCount(); i++) {
                 cursor.moveToPosition(i);
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                System.out.println("数据行 主键  id   "+id);
                 String leixing = AEShelper.decrypt(cursor.getString(cursor.getColumnIndexOrThrow("leixing")), password);
-//                System.out.println("leixing"+leixing);
+                System.out.println("leixing"+leixing);
                 String zhanghao = AEShelper.decrypt(cursor.getString(2), password);
-//                System.out.println("zhanghao"+zhanghao);
+                System.out.println("zhanghao"+zhanghao);
                 String pass = AEShelper.decrypt(cursor.getString(cursor.getColumnIndexOrThrow("password")), password);
 //                System.out.println("pass"+pass);
 //                for (int j=0;j<cursor.getColumnCount();j++){

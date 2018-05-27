@@ -63,7 +63,6 @@ public class AddFragment extends DialogFragment {
                 Main_data main_data = new Main_data(lei, zhang, mi);
                 long result = Maindao.Main_insert(main_data);
                 if (result != -1) {
-
                     Toast.makeText(getActivity(), "添加成功", Toast.LENGTH_SHORT).show();
                     AddFragment.this.dismiss();
                     addCallback.noti();

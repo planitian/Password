@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 
+import com.example.administrator.password.Activity.MainActivity;
 import com.example.administrator.password.Bean.Main_data;
 import com.example.administrator.password.R;
 import com.example.administrator.password.View.Itemview;
@@ -34,8 +35,7 @@ public class Main_adapter extends RecyclerView.Adapter {
     //    private Itemview view;
     private Scroller scroller;
     private Boolean xuanze = false;
-    private int a = 0;
-
+   private RecyclerView recyclerView;
 
     //    private Main_TextWatcher main_textWatcher;
     public Main_adapter(Context context, List<Main_data> datas) {
@@ -95,6 +95,7 @@ public class Main_adapter extends RecyclerView.Adapter {
         main_viewholder.left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                allfuyuan(recyclerView,position);
                 if (!main_data.getLeft()) {
                     main_data.setLeft(true);
                     main_viewholder.left.setBackgroundResource(R.drawable.right);
@@ -114,6 +115,12 @@ public class Main_adapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return datas.size();
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        this.recyclerView=recyclerView;
     }
 
     class Main_viewholder extends RecyclerView.ViewHolder {
@@ -140,13 +147,37 @@ public class Main_adapter extends RecyclerView.Adapter {
         }
     }
 
+    public void setXuanze(Boolean xuanze) {
+        this.xuanze = xuanze;
+    }
+
+    public Boolean getXuanze() {
+        return xuanze;
+    }
+
     //给要输入内容的EditText生成内容观察者 并且设定位置信心
     public Main_TextWatcher creat_main_textWatcher(int id, String key) {
         Main_TextWatcher main_textWatcher = new Main_TextWatcher();
         main_textWatcher.setXinxi(id, key);
         return main_textWatcher;
     }
+    //用于将所有划出的左滑子view 复原
+    public void allfuyuan(RecyclerView recyclerView,int position){
+        for (int i=0;i<datas.size();i++){
+            if (datas.get(i).getLeft()&&i!=position){
+                datas.get(i).setLeft(false);
+                Itemview itemview=(Itemview) recyclerView.getChildAt(i);
+                Button button=itemview.findViewById(R.id.Main_left);
+                button.setBackgroundResource(R.drawable.left);
+                itemview.fuyuan();
+            }
+        }
+    }
 
+    @Override
+    public long getItemId(int position) {
+        return super.getItemId(position);
+    }
 //    class Itemview extends LinearLayout{
 //        private Scroller scroller;
 //

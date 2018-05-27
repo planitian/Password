@@ -39,7 +39,6 @@ public class AEShelper {
     public static byte[] encrypt(byte[] content, String password) {
         try {
             SecretKeySpec key = createKey(password);
-            System.out.println(key);
             Cipher cipher = Cipher.getInstance(CipherMode);
             cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] result = cipher.doFinal(content);

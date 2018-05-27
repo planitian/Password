@@ -42,6 +42,11 @@ public class Itemview extends LinearLayout {
             invalidate();
         }
     }
+    //用于将左滑还原，在recycleview哪里调用，实现 自动复原
+    public void fuyuan(){
+        scroller.startScroll(getScrollX(),0,-getScrollX(),0);
+        invalidate();
+    }
 
 }
 

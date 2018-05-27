@@ -2,7 +2,10 @@
 <com.example.administrator.password.View.Itemview xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/y128"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    >
 
     <include layout="@layout/item_content" />
 

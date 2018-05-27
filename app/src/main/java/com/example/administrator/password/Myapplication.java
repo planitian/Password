@@ -13,4 +13,11 @@ public class Myapplication extends Application {
     public Myapplication() {
         maindao=new Maindao(this);
     }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+    }
+
+
 }

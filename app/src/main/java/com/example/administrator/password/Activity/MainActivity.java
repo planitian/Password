@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
 import com.example.administrator.password.Adapter.Main_adapter;
@@ -15,14 +16,18 @@ import com.example.administrator.password.Bean.Main_data;
 import com.example.administrator.password.Dao.Maindao;
 import com.example.administrator.password.Fragment.AddFragment;
 import com.example.administrator.password.R;
+import com.example.administrator.password.View.Itemview;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AddFragment.AddCallback {
+public class MainActivity extends AppCompatActivity implements AddFragment.AddCallback ,View.OnClickListener{
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private Button rede;
     private Button add;
+    private CheckBox main_all;
+    private Button main_fanxuan;
+    private Button main_del;
     private Main_adapter main_adapter;
     private List<Main_data> datas;
     private LinearLayout caozuo;
@@ -32,10 +37,18 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.Main_Toolbar);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
         recyclerView = (RecyclerView) findViewById(R.id.Main_recy);
         rede = (Button) findViewById(R.id.Main_rede);
         add = (Button) findViewById(R.id.Main_add);
         caozuo = (LinearLayout) findViewById(R.id.Main_caozuo);
+        main_all=(CheckBox)findViewById(R.id.Main_all);
+        main_fanxuan=(Button)findViewById(R.id.Main_fanxuan);
+        main_del=(Button)findViewById(R.id.Main_del);
+        main_all.setOnClickListener(this);
+        main_fanxuan.setOnClickListener(this);
+        main_del.setOnClickListener(this);
         //得到数据库中的所有数据 ，并以Bean的方式返回List<Main_data>
         datas = Maindao.Main_queryall();
         main_adapter = new Main_adapter(this, datas);
@@ -44,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         recyclerView.setAdapter(main_adapter);
         Add_shijian(add);
         Rede_shijian(rede);
-
     }
 
     //添加add点击事件
@@ -64,12 +76,24 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         rede.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                caozuo.setVisibility(View.VISIBLE);
+                if (!main_adapter.getXuanze()) {
+                    caozuo.setVisibility(View.VISIBLE);
+                    main_adapter.setXuanze(true);
+                    main_adapter.notifyDataSetChanged();
+                }else {
+                    caozuo.setVisibility(View.GONE);
+                    for (Main_data main_data:datas){
+                        main_data.setXuanze(false);
+                    }
+                    main_adapter.setXuanze(false);
+                    main_all.setChecked(false);
+                    main_adapter.notifyDataSetChanged();
+                }
             }
         });
 
-
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -81,6 +105,60 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         List<Main_data> temp = Maindao.Main_queryall();
         datas.clear();
         datas.addAll(temp);
+        for (Main_data main_data:datas){
+            System.out.println("MainActivity中的数据  "+main_data.getId()+"    "+main_data.getLeixing());
+        }
+        System.out.println("我是分割线》》》》》》》》》》》》");
         main_adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.Main_all:
+                if (main_all.isChecked()){
+                    for (Main_data main_data:datas){
+                        main_data.setXuanze(true);
+                    }
+                }else {
+                    for (Main_data main_data:datas){
+                        main_data.setXuanze(false);
+                    }
+                }
+
+                main_adapter.notifyDataSetChanged();
+                break;
+            case R.id.Main_fanxuan:
+                main_all.setChecked(false);
+                for (Main_data main_data:datas){
+                    if (main_data.getXuanze())
+                        main_data.setXuanze(false);
+                    else
+                        main_data.setXuanze(true);
+                }
+                //用于选择反选时候，如果选择框全部选择，全选框应当也是选择的
+
+              int a=0;//计数，用来累计数据源中选择的次数，如果和size相同，则全部选择
+              for (int i=0;i<datas.size();i++){
+                 if (datas.get(i).getXuanze()){
+                     a++;
+                 }
+            }
+            if (a==datas.size()){
+                main_all.setChecked(true);
+            }
+                main_adapter.notifyDataSetChanged();
+                break;
+            case R.id.Main_del:
+               for (int i=0;i<datas.size();i++){
+                   if (datas.get(i).getXuanze())
+                       Maindao.Main_del(String.valueOf(datas.get(i).getId()),"id");
+                   datas.remove(i);
+               }
+               main_adapter.notifyDataSetChanged();
+                rede.performClick();
+                break;
+
+        }
     }
 }
