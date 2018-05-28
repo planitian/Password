@@ -71,6 +71,9 @@ public class AddFragment extends DialogFragment {
                     Toast.makeText(getActivity(), "添加失败", Toast.LENGTH_SHORT).show();
                     AddFragment.this.dismiss();
                 }
+//                Maindao.Main_inserttest(main_data);
+//                AddFragment.this.dismiss();
+//                addCallback.noti();
             }
         });
         return view;

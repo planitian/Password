@@ -47,8 +47,23 @@ public class Maindao {
         contentValues.put("leixing", leixing);
         contentValues.put("zhanghao", zhanghao);
         contentValues.put("password", pass);
-        long result=sqLiteDatabase.insert("Main", null, contentValues);
+        long result = sqLiteDatabase.insert("Main", null, contentValues);
         sqLiteDatabase.close();
+        myslqdata.close();
+        return result;
+    }
+
+    //增加数据 不加密
+    public static long Main_inserttest(Main_data main_data) {
+        myslqdata = new Myslqdata(context, "shuju", null, 1);
+        sqLiteDatabase = myslqdata.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("leixing", main_data.getLeixing());
+        contentValues.put("zhanghao", main_data.getZhanghao());
+        contentValues.put("password",main_data.getPassword());
+        long result = sqLiteDatabase.insert("Main", null, contentValues);
+        sqLiteDatabase.close();
+        myslqdata.close();
         return result;
     }
 
@@ -62,6 +77,7 @@ public class Maindao {
         String sql = "insert into Main(leixing,zhanghao,password) values ('" + leixing1 + "','" + zhanghao1 + "','" + pass + "')";
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.close();
+        myslqdata.close();
     }
 
     //删除数据
@@ -69,6 +85,8 @@ public class Maindao {
         myslqdata = new Myslqdata(context, "shuju", null, 1);
         sqLiteDatabase = myslqdata.getWritableDatabase();
         sqLiteDatabase.delete("Main", key + "=?", new String[]{src});
+        sqLiteDatabase.close();
+        myslqdata.close();
     }
 
     //删除数据 用sql
@@ -82,6 +100,7 @@ public class Maindao {
         String sql = "delete from Main where " + key + "=" + src;
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.close();
+        myslqdata.close();
     }
 
     //更新数据
@@ -102,6 +121,7 @@ public class Maindao {
         String sql = "update Main set " + key + "=" + src + "where " + where + "=" + wherearg;
         sqLiteDatabase.execSQL(sql);
         sqLiteDatabase.close();
+        myslqdata.close();
     }
 
     //查询所有数据
@@ -114,11 +134,11 @@ public class Maindao {
             for (int i = 0; i < cursor.getCount(); i++) {
                 cursor.moveToPosition(i);
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
-                System.out.println("数据行 主键  id   "+id);
+                System.out.println("数据行 主键  id   " + id);
                 String leixing = AEShelper.decrypt(cursor.getString(cursor.getColumnIndexOrThrow("leixing")), password);
-                System.out.println("leixing"+leixing);
+                System.out.println("leixing" + leixing);
                 String zhanghao = AEShelper.decrypt(cursor.getString(2), password);
-                System.out.println("zhanghao"+zhanghao);
+                System.out.println("zhanghao" + zhanghao);
                 String pass = AEShelper.decrypt(cursor.getString(cursor.getColumnIndexOrThrow("password")), password);
 //                System.out.println("pass"+pass);
 //                for (int j=0;j<cursor.getColumnCount();j++){
@@ -126,10 +146,12 @@ public class Maindao {
 //                }
                 Main_data main_data = new Main_data(leixing, zhanghao, pass);
                 main_data.setId(id);
-                System.out.println("Main_data的数据"+main_data.toString());
+                System.out.println("Main_data的数据" + main_data.toString());
                 datas.add(main_data);
             }
         }
+        sqLiteDatabase.close();
+        myslqdata.close();
         return datas;
     }
 
@@ -152,6 +174,8 @@ public class Maindao {
                 datas.add(main_data);
             }
         }
+        sqLiteDatabase.close();
+        myslqdata.close();
         return datas;
     }
 
@@ -167,9 +191,14 @@ public class Maindao {
             String pass = AEShelper.decrypt(cursor.getString(cursor.getColumnIndexOrThrow("password")), password);
             Main_data main_data = new Main_data(leixing, zhanghao, pass);
             main_data.setId(id1);
+
+            sqLiteDatabase.close();
+            myslqdata.close();
             return main_data;
         } else
-            return null;
+            sqLiteDatabase.close();
+        myslqdata.close();
+        return null;
     }
 
     //查询特定的数据用sql
@@ -185,9 +214,13 @@ public class Maindao {
             String pass = AEShelper.decrypt(cursor.getString(cursor.getColumnIndexOrThrow("password")), password);
             Main_data main_data = new Main_data(leixing, zhanghao, pass);
             main_data.setId(id1);
+            sqLiteDatabase.close();
+            myslqdata.close();
             return main_data;
         } else
-            return null;
+            sqLiteDatabase.close();
+        myslqdata.close();
+        return null;
     }
 
 }

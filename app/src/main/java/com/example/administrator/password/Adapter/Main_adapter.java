@@ -64,10 +64,11 @@ public class Main_adapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         final Main_viewholder main_viewholder = (Main_viewholder) holder;
         final Main_data main_data = datas.get(position);
-        main_viewholder.leixing.setText(main_data.getLeixing());
+        main_viewholder.leixing.setTag(position);
         main_viewholder.leixing.setTextColor(colors[position % 4]);
         //给要输入内容的Edittext添加内容观察者，调用下方的方法
         main_viewholder.leixing.addTextChangedListener(creat_main_textWatcher(main_data.getId(), "leixing"));
+        main_viewholder.leixing.setText(main_data.getLeixing()+"  id :"+main_data.getId());
         main_viewholder.xuanze.setChecked(main_data.getXuanze());
         main_viewholder.xuanze.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -82,10 +83,10 @@ public class Main_adapter extends RecyclerView.Adapter {
 
         //给要输入内容的Edittext添加内容观察者，调用下方的方法
         main_viewholder.zhanghao.setText(main_data.getZhanghao());
-        main_viewholder.zhanghao.addTextChangedListener(creat_main_textWatcher(main_data.getId(), "zhanghao"));
+//        main_viewholder.zhanghao.addTextChangedListener(creat_main_textWatcher(main_data.getId(), "zhanghao"));
         //给要输入内容的Edittext添加内容观察者，调用下方的方法
         main_viewholder.password.setText(main_data.getPassword());
-        main_viewholder.password.addTextChangedListener(creat_main_textWatcher(main_data.getId(), "password"));
+//        main_viewholder.password.addTextChangedListener(creat_main_textWatcher(main_data.getId(), "password"));
         if (xuanze) {
             main_viewholder.xuanze.setVisibility(View.VISIBLE);
         } else {

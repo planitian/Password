@@ -105,10 +105,6 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         List<Main_data> temp = Maindao.Main_queryall();
         datas.clear();
         datas.addAll(temp);
-        for (Main_data main_data:datas){
-            System.out.println("MainActivity中的数据  "+main_data.getId()+"    "+main_data.getLeixing());
-        }
-        System.out.println("我是分割线》》》》》》》》》》》》");
         main_adapter.notifyDataSetChanged();
     }
 
