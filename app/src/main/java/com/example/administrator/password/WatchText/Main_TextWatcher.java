@@ -13,7 +13,12 @@ import com.example.administrator.password.Dao.Maindao;
 public class Main_TextWatcher implements android.text.TextWatcher {
     private int id;
     private String key;
+    private int position;
+    private TextCallback textCallback;
 
+    public void setTextCallback(TextCallback textCallback) {
+        this.textCallback = textCallback;
+    }
 
     public void setXinxi(int id, String key) {
         this.key = key;
@@ -32,11 +37,18 @@ public class Main_TextWatcher implements android.text.TextWatcher {
 
     @Override
     public void afterTextChanged(Editable s) {
-        Log.d("afterTextChanged", s.toString().trim());
-        if (s.toString().trim() == "" || s.toString().trim().length() == 0 || s.toString().trim().equals(null)) {
-            //空语句 不做任何事
-        } else {
-            Maindao.Main_update(s.toString().trim(), key, "id", String.valueOf(id));
-        }
+
+            Log.d("afterTextChanged", s.toString().trim());
+            if (s.toString().trim() == "" || s.toString().trim().length() == 0 || s.toString().trim().equals(null)) {
+                //空语句 不做任何事
+            } else {
+                Maindao.Main_update(s.toString().trim(), key, "id", String.valueOf(id));
+                textCallback.setdata(s);
+            }
+
+    }
+
+   public interface TextCallback{
+        void setdata(Editable s);
     }
 }

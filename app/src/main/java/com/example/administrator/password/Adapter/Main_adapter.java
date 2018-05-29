@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.example.administrator.password.R;
 import com.example.administrator.password.View.Itemview;
 import com.example.administrator.password.WatchText.Main_TextWatcher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,7 +38,7 @@ public class Main_adapter extends RecyclerView.Adapter {
     private Scroller scroller;
     private Boolean xuanze = false;
    private RecyclerView recyclerView;
-
+    private List<Integer> textwatch_fuyong=new ArrayList<>();
     //    private Main_TextWatcher main_textWatcher;
     public Main_adapter(Context context, List<Main_data> datas) {
         super();
@@ -62,13 +64,48 @@ public class Main_adapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+
         final Main_viewholder main_viewholder = (Main_viewholder) holder;
         final Main_data main_data = datas.get(position);
-        main_viewholder.leixing.setTag(position);
         main_viewholder.leixing.setTextColor(colors[position % 4]);
+
+//        System.out.println(main_textWatcher.hashCode());
+
+        //以下一段代码是为了防止recycleview复用机制导致的item之间的textwatcher混用，导致的数据错乱，给每一个item都生成一个新的textwatch
+        //最好在setext()前面就加入textwatch，这样setText时候，就会将设置的数据写入到数据库中，保证了数据的一致性。
+//        if (!(main_viewholder.leixing.getTag()instanceof  Main_TextWatcher)){
+//            Main_TextWatcher main_textWatcher=creat_main_textWatcher(main_data.getId(),"leixing");
+//            main_viewholder.leixing.setTag(main_textWatcher);
+//            main_viewholder.leixing.addTextChangedListener(main_textWatcher);
+//        }else {
+//            Main_TextWatcher main_textWatcher=creat_main_textWatcher(main_data.getId(),"leixing");
+//            main_viewholder.leixing.removeTextChangedListener((Main_TextWatcher)main_viewholder.leixing.getTag());
+//            main_viewholder.leixing.addTextChangedListener(main_textWatcher);
+//        }
+        main_viewholder.leixing.setText(main_data.getLeixing());
+        if (main_viewholder.leixing.getTag()==null) {
+            Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "leixing");
+            main_viewholder.leixing.addTextChangedListener(main_textWatcher);
+            Cuncu cuncu=new Cuncu(main_textWatcher,position);
+            main_viewholder.leixing.setTag(cuncu);
+        }else {
+            Cuncu cuncu=(Cuncu)main_viewholder.leixing.getTag();
+            if (cuncu.getPosition()!=position){
+                Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "leixing");
+                main_viewholder.leixing.removeTextChangedListener(cuncu.getMain_textWatcher());
+                main_viewholder.leixing.addTextChangedListener(main_textWatcher);
+                Cuncu cuncu1=new Cuncu(main_textWatcher,position);
+                main_viewholder.leixing.setTag(cuncu1);
+            }
+        }
         //给要输入内容的Edittext添加内容观察者，调用下方的方法
-        main_viewholder.leixing.addTextChangedListener(creat_main_textWatcher(main_data.getId(), "leixing"));
-        main_viewholder.leixing.setText(main_data.getLeixing()+"  id :"+main_data.getId());
+
+//       if (!textwatch_fuyong.contains(position)){
+//           System.out.println("复用"+position);
+//           Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "leixing");
+//           main_viewholder.leixing.addTextChangedListener(main_textWatcher);
+//           textwatch_fuyong.add(position);
+//       }
         main_viewholder.xuanze.setChecked(main_data.getXuanze());
         main_viewholder.xuanze.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -111,6 +148,8 @@ public class Main_adapter extends RecyclerView.Adapter {
                 }
             }
         });
+        //设置是否复用
+//        main_viewholder.setIsRecyclable(false);
     }
 
     @Override
@@ -123,6 +162,7 @@ public class Main_adapter extends RecyclerView.Adapter {
         super.onAttachedToRecyclerView(recyclerView);
         this.recyclerView=recyclerView;
     }
+
 
     class Main_viewholder extends RecyclerView.ViewHolder {
         private CheckBox xuanze;
@@ -178,6 +218,23 @@ public class Main_adapter extends RecyclerView.Adapter {
     @Override
     public long getItemId(int position) {
         return super.getItemId(position);
+    }
+    class Cuncu{
+        private Main_TextWatcher main_textWatcher;
+        private int position;
+
+        public Cuncu(Main_TextWatcher main_textWatcher, int position) {
+            this.main_textWatcher = main_textWatcher;
+            this.position = position;
+        }
+
+        public Main_TextWatcher getMain_textWatcher() {
+            return main_textWatcher;
+        }
+
+        public int getPosition() {
+            return position;
+        }
     }
 //    class Itemview extends LinearLayout{
 //        private Scroller scroller;

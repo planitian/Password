@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,10 +18,11 @@ import com.example.administrator.password.Dao.Maindao;
 import com.example.administrator.password.Fragment.AddFragment;
 import com.example.administrator.password.R;
 import com.example.administrator.password.View.Itemview;
+import com.example.administrator.password.WatchText.Main_TextWatcher;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AddFragment.AddCallback ,View.OnClickListener{
+public class MainActivity extends AppCompatActivity implements AddFragment.AddCallback ,View.OnClickListener,Main_TextWatcher.TextCallback{
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private Button rede;
@@ -156,5 +158,10 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
                 break;
 
         }
+    }
+
+    @Override
+    public void setdata(Editable s) {
+
     }
 }
