@@ -4,6 +4,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 
+import com.example.administrator.password.Bean.Main_data;
 import com.example.administrator.password.Dao.Maindao;
 
 /**
@@ -13,16 +14,13 @@ import com.example.administrator.password.Dao.Maindao;
 public class Main_TextWatcher implements android.text.TextWatcher {
     private int id;
     private String key;
-    private int position;
-    private TextCallback textCallback;
+    private Main_data main_data;
 
-    public void setTextCallback(TextCallback textCallback) {
-        this.textCallback = textCallback;
-    }
 
-    public void setXinxi(int id, String key) {
+    public void setXinxi(int id, String key,Main_data main_data) {
         this.key = key;
         this.id = id;
+        this.main_data=main_data;
     }
 
     @Override
@@ -43,12 +41,18 @@ public class Main_TextWatcher implements android.text.TextWatcher {
                 //空语句 不做任何事
             } else {
                 Maindao.Main_update(s.toString().trim(), key, "id", String.valueOf(id));
-                textCallback.setdata(s);
+                switch (key){
+                    case "leixing":main_data.setLeixing(s.toString().trim());
+                        break;
+                    case "zhanghao":main_data.setZhanghao(s.toString().trim());
+                        break;
+                    case "password":main_data.setPassword(s.toString().trim());
+                        break;
+                }
+
             }
 
     }
 
-   public interface TextCallback{
-        void setdata(Editable s);
-    }
+
 }

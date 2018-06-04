@@ -3,6 +3,7 @@ package com.example.administrator.password.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +23,7 @@ import com.example.administrator.password.WatchText.Main_TextWatcher;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements AddFragment.AddCallback ,View.OnClickListener,Main_TextWatcher.TextCallback{
+public class MainActivity extends AppCompatActivity implements AddFragment.AddCallback ,View.OnClickListener{
     private Toolbar toolbar;
     private RecyclerView recyclerView;
     private Button rede;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayout.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(main_adapter);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         Add_shijian(add);
         Rede_shijian(rede);
     }
@@ -105,9 +107,11 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
     @Override
     public void noti() {
         List<Main_data> temp = Maindao.Main_queryall();
-        datas.clear();
-        datas.addAll(temp);
-        main_adapter.notifyDataSetChanged();
+        Main_data main_data=temp.get(temp.size()-1);
+        datas.add(main_data);
+        main_adapter.notifyItemInserted(temp.size()-1);
+        main_adapter.notifyItemChanged(temp.size()-1);
+        recyclerView.scrollToPosition(temp.size()-1);
     }
 
     @Override
@@ -149,19 +153,20 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
                 break;
             case R.id.Main_del:
                for (int i=0;i<datas.size();i++){
-                   if (datas.get(i).getXuanze())
+                   if (datas.get(i).getXuanze()) {
                        Maindao.Main_del(String.valueOf(datas.get(i).getId()),"id");
-                   datas.remove(i);
+                       datas.remove(i);//当数组移除一个数据时候，当前数据位置会被下一位数据顶替，所以需要将i减一，这样下一位数据才能获取到
+                       main_adapter.notifyItemRemoved(i);
+                       main_adapter.notifyItemRangeChanged(i,datas.size()-i-1);
+                       //这一循环结束后，i会自动加一，造成下一次循环，数组中的下一位数据被替换到当前位置，造成数据没有判断 所以需要减一
+                       i--;
+                   }
                }
-               main_adapter.notifyDataSetChanged();
                 rede.performClick();
                 break;
 
         }
     }
 
-    @Override
-    public void setdata(Editable s) {
 
-    }
 }

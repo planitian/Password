@@ -11,6 +11,6 @@
 
     <include
         layout="@layout/item_chouti"
-        android:layout_width="@dimen/x576"
+        android:layout_width="@dimen/x720"
         android:layout_height="@dimen/y100" />
 </com.example.administrator.password.View.Itemview>
