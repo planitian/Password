@@ -8,4 +8,5 @@
     <string name="password">密码</string>
     <string name="quxiao">取消</string>
     <string name="queding">确定</string>
+    <string name="search">账号类型</string>
 </resources>

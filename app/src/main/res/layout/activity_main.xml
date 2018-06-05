@@ -9,28 +9,47 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/Main_Toolbar"
         android:layout_width="0dp"
-        android:layout_height="@dimen/y80"
+        android:layout_height="@dimen/y100"
         app:contentInsetStart="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp">
+   <RelativeLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/Main_rede"
-            android:layout_width="@dimen/y80"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:scaleType="centerCrop"
-            android:background="@drawable/rede1" />
+       <Button
+           android:id="@+id/Main_rede"
+           android:layout_width="@dimen/y100"
+           android:layout_height="match_parent"
+           android:layout_gravity="start"
+           android:scaleType="centerCrop"
+           android:background="@drawable/rede1"
+           android:layout_alignParentLeft="true"
+           />
 
-        <Button
-            android:id="@+id/Main_add"
-            android:layout_width="@dimen/y80"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:layout_marginEnd="0.1dp"
-            android:background="@drawable/add_selector" />
+       <android.support.v7.widget.SearchView
+           android:id="@+id/searc"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_toRightOf="@+id/Main_rede"
+           android:layout_toLeftOf="@+id/Main_add"
+           android:layout_centerHorizontal="true"
+           app:queryHint="@string/search"
+           android:layout_marginLeft="@dimen/x50"
+           />
+
+       <Button
+           android:id="@+id/Main_add"
+           android:layout_width="@dimen/y100"
+           android:layout_height="match_parent"
+           android:layout_alignParentRight="true"
+           android:layout_marginEnd="0.1dp"
+           android:background="@drawable/add_selector" />
+
+   </RelativeLayout>
+
 
     </android.support.v7.widget.Toolbar>
 
@@ -88,5 +107,7 @@
             android:background="@color/Tomato"
             />
     </LinearLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>

@@ -175,8 +175,15 @@ public class Main_adapter extends RecyclerView.Adapter {
                 if (!main_data.getLeft()) {
                     main_data.setLeft(true);
                     main_viewholder.left.setBackgroundResource(R.drawable.right);
+                    int[] zuobiao=new int[2];
+                    main_viewholder.zhanghao.getLocationInWindow(zuobiao);
+                    int[] diyige=new int[2];
+                    main_viewholder.zhanghao.getLocationOnScreen(diyige);
+//                    main_viewholder.getView().getLocationInWindow(diyige);
+                    System.out.println("diyige:"+diyige[0]+"sss"+diyige[1]);
+                    System.out.println("绝对坐标："+zuobiao[0]+"坐标二："+zuobiao[1]);
                     int left = main_viewholder.getView().getRight() - main_viewholder.zhanghao.getRight();
-                    ((Itemview) main_viewholder.getView()).getScroller().startScroll(main_viewholder.getView().getScrollX(), 0, left, 0, 500);
+                    ((Itemview) main_viewholder.getView()).getScroller().startScroll(main_viewholder.getView().getScrollX(), 0, main_viewholder.zhanghao.getRight(), 0, 500);
                     main_viewholder.getView().invalidate();
                 } else {
                     main_data.setLeft(false);

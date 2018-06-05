@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.view.View;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
     private Main_adapter main_adapter;
     private List<Main_data> datas;
     private LinearLayout caozuo;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,10 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         recyclerView = (RecyclerView) findViewById(R.id.Main_recy);
         rede = (Button) findViewById(R.id.Main_rede);
         add = (Button) findViewById(R.id.Main_add);
+        searchView=(SearchView)findViewById(R.id.searc);
+        //搜索按钮的一些代码 主要是点击事件
+        searchView.setIconified(true);
+
         caozuo = (LinearLayout) findViewById(R.id.Main_caozuo);
         main_all=(CheckBox)findViewById(R.id.Main_all);
         main_fanxuan=(Button)findViewById(R.id.Main_fanxuan);
