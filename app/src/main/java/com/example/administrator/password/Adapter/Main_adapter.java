@@ -46,7 +46,7 @@ public class Main_adapter extends RecyclerView.Adapter {
         this.datas = datas;
 
         colors[0] = 0xff000000;
-        colors[1] = 0xffffff00;
+        colors[1] = 0xffEE30A7;
         colors[2] = 0xff00bfff;
         colors[3] = 0xff191970;
 //        //创建edittext 内容观察者

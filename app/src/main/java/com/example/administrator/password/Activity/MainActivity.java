@@ -1,23 +1,30 @@
 package com.example.administrator.password.Activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 
 import com.example.administrator.password.Adapter.Main_adapter;
 import com.example.administrator.password.Bean.Main_data;
 import com.example.administrator.password.Dao.Maindao;
 import com.example.administrator.password.Fragment.AddFragment;
+import com.example.administrator.password.ItemDecoration.Main_Decoration;
 import com.example.administrator.password.R;
 import com.example.administrator.password.View.Itemview;
 import com.example.administrator.password.WatchText.Main_TextWatcher;
@@ -36,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
     private List<Main_data> datas;
     private LinearLayout caozuo;
     private SearchView searchView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +56,52 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         searchView=(SearchView)findViewById(R.id.searc);
         //搜索按钮的一些代码 主要是点击事件
         searchView.setIconified(true);
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                 System.out.println("setOnQueryTextFocusChangeListener"+hasFocus);
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                System.out.println("onQueryTextSubmit   "+query);
+                for (int i=0;i<datas.size();i++){
+                    if (datas.get(i).getLeixing().contains(query)){
+                        datas.remove(i);
+                        i--;
+                    }
+                }
+                main_adapter.notifyDataSetChanged();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                System.out.println("onQueryTextChange   "+newText);
+                datas.clear();
+                datas.addAll(Maindao.Main_queryall());
+                for (int i=0;i<datas.size();i++){
+                    if (!datas.get(i).getLeixing().contains(newText)){
+                        datas.remove(i);
+                        i--;
+                    }
+                }
+                main_adapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                datas.clear();
+                datas.addAll(Maindao.Main_queryall());
+                main_adapter.notifyDataSetChanged();
+                return true;
+            }
+        });
 
         caozuo = (LinearLayout) findViewById(R.id.Main_caozuo);
         main_all=(CheckBox)findViewById(R.id.Main_all);
@@ -65,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(main_adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+//        recyclerView.addItemDecoration(new DividerItemDecoration(MainActivity.this, LinearLayout.VERTICAL));
+        recyclerView.addItemDecoration(new Main_Decoration(MainActivity.this));
         Add_shijian(add);
         Rede_shijian(rede);
     }
@@ -75,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
             @Override
             public void onClick(View v) {
                 AddFragment addFragment = new AddFragment();
-
                 addFragment.show(getFragmentManager(), "addFragment");
             }
         });
@@ -101,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
                 }
             }
         });
-
     }
 
 
@@ -174,5 +226,9 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         }
     }
 
-
+    @Override
+    public void onBackPressed() {
+        System.out.println("onBackPressed");
+        super.onBackPressed();
+    }
 }

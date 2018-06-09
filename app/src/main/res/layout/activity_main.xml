@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context="com.example.administrator.password.Activity.MainActivity">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/Main_Toolbar"
         android:layout_width="0dp"
-        android:layout_height="@dimen/y100"
+        android:layout_height="@dimen/toolbar_height"
         app:contentInsetStart="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +22,7 @@
 
        <Button
            android:id="@+id/Main_rede"
-           android:layout_width="@dimen/y100"
+           android:layout_width="@dimen/toolbar_button"
            android:layout_height="match_parent"
            android:layout_gravity="start"
            android:scaleType="centerCrop"
@@ -37,12 +38,12 @@
            android:layout_toLeftOf="@+id/Main_add"
            android:layout_centerHorizontal="true"
            app:queryHint="@string/search"
-           android:layout_marginLeft="@dimen/x50"
+           android:layout_marginLeft="20dp"
            />
 
        <Button
            android:id="@+id/Main_add"
-           android:layout_width="@dimen/y100"
+           android:layout_width="@dimen/toolbar_button"
            android:layout_height="match_parent"
            android:layout_alignParentRight="true"
            android:layout_marginEnd="0.1dp"
@@ -60,6 +61,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/lightgray"
         app:layout_constraintTop_toBottomOf="@+id/Main_Toolbar"
         android:paddingLeft="10dp"
         >
@@ -69,7 +71,7 @@
     <LinearLayout
         android:id="@+id/Main_caozuo"
         android:layout_width="0dp"
-        android:layout_height="@dimen/y120"
+        android:layout_height="45dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/Main_recy"
         app:layout_constraintEnd_toEndOf="parent"

@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.example.administrator.password.View.Itemview xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/y128"
+    android:layout_height="@dimen/item_height"
     android:orientation="horizontal"
     android:focusable="true"
     android:focusableInTouchMode="true"
     >
 
-    <include layout="@layout/item_content" />
+    <include layout="@layout/item_content"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        />
 
     <include
         layout="@layout/item_chouti"
         android:layout_width="320dp"
-        android:layout_height="@dimen/y100" />
+        android:layout_height="@dimen/item_height" />
 </com.example.administrator.password.View.Itemview>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+     <!--activity_main-->
+    <dimen name="toolbar_height">45dp</dimen>
+    <dimen name="toolbar_button">30dp</dimen>
+
+    <!--addxinxi-->
+    <dimen name="addxinxi_margintop">10dp</dimen>
+    <dimen name="addxinxi_marginright">8dp</dimen>
+    <dimen name="addxinxi_marginleft">2dp</dimen>
+    <dimen name="addxinxi_quxiao_margintop">30dp</dimen>
+
+    <!--item-->
+    <dimen name="item_height">45dp</dimen>
+
+    <!--item_chouti-->
+    <dimen name="item_chouti_height">22.5dp</dimen>
+
+    <!--item_content-->
+    <dimen name="item_content_left_width">30dp</dimen>
+
+</resources>

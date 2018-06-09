@@ -7,6 +7,8 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,7 +102,8 @@ public class AddFragment extends DialogFragment {
         // 一定要设置Background，如果不设置，window属性设置无效
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         window.setGravity(Gravity.CENTER);
-        window.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+          DisplayMetrics display= getResources().getDisplayMetrics();
+        window.setLayout((int) (display.widthPixels*0.8), ViewGroup.LayoutParams.WRAP_CONTENT);
         WindowManager.LayoutParams layoutParams = window.getAttributes();
         layoutParams.dimAmount = 0;
         window.setAttributes(layoutParams);
