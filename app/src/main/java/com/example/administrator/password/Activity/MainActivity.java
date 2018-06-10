@@ -3,6 +3,7 @@ package com.example.administrator.password.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,6 +45,17 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
     private List<Main_data> datas;
     private LinearLayout caozuo;
     private SearchView searchView;
+   android.os.Handler handler=new android.os.Handler(){
+       @Override
+       public void handleMessage(Message msg) {
+           super.handleMessage(msg);
+           switch (msg.what){
+               case 1:searchView.clearFocus();
+                     break;
+           }
+       }
+   };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +69,12 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         searchView=(SearchView)findViewById(R.id.searc);
         //搜索按钮的一些代码 主要是点击事件
         searchView.setIconified(true);
+//        searchView.setIconifiedByDefault(true);
         searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                  System.out.println("setOnQueryTextFocusChangeListener"+hasFocus);
+
             }
         });
 
@@ -96,9 +111,12 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
+
                 datas.clear();
                 datas.addAll(Maindao.Main_queryall());
                 main_adapter.notifyDataSetChanged();
+                handler.sendEmptyMessage(1);
+                 System.out.println(">>>>>>>>>>>>"+this.getClass().getName()+searchView.isIconified());
                 return true;
             }
         });

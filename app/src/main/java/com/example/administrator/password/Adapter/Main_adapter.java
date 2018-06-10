@@ -37,8 +37,10 @@ public class Main_adapter extends RecyclerView.Adapter {
     //    private Itemview view;
     private Scroller scroller;
     private Boolean xuanze = false;
-   private RecyclerView recyclerView;
-    private List<Integer> textwatch_fuyong=new ArrayList<>();
+    private RecyclerView recyclerView;
+    private int lastposition=-1;
+    private List<Integer> textwatch_fuyong = new ArrayList<>();
+
     //    private Main_TextWatcher main_textWatcher;
     public Main_adapter(Context context, List<Main_data> datas) {
         super();
@@ -83,18 +85,18 @@ public class Main_adapter extends RecyclerView.Adapter {
 //            main_viewholder.leixing.removeTextChangedListener((Main_TextWatcher)main_viewholder.leixing.getTag());
 //            main_viewholder.leixing.addTextChangedListener(main_textWatcher);
 //        }
-        if (main_viewholder.leixing.getTag()==null) {
-            Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "leixing",main_data);
+        if (main_viewholder.leixing.getTag() == null) {
+            Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "leixing", main_data);
             main_viewholder.leixing.addTextChangedListener(main_textWatcher);
-            Cuncu cuncu=new Cuncu(main_textWatcher,position);
+            Cuncu cuncu = new Cuncu(main_textWatcher, position);
             main_viewholder.leixing.setTag(cuncu);
-        }else {
-            Cuncu cuncu=(Cuncu)main_viewholder.leixing.getTag();
-            if (cuncu.getPosition()!=position){
-                Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "leixing",main_data);
+        } else {
+            Cuncu cuncu = (Cuncu) main_viewholder.leixing.getTag();
+            if (cuncu.getPosition() != position) {
+                Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "leixing", main_data);
                 main_viewholder.leixing.removeTextChangedListener(cuncu.getMain_textWatcher());
                 main_viewholder.leixing.addTextChangedListener(main_textWatcher);
-                Cuncu cuncu1=new Cuncu(main_textWatcher,position);
+                Cuncu cuncu1 = new Cuncu(main_textWatcher, position);
                 main_viewholder.leixing.setTag(cuncu1);
             }
         }
@@ -115,48 +117,48 @@ public class Main_adapter extends RecyclerView.Adapter {
                 main_data.setXuanze(isChecked);
             }
         });
-        if (main_data.getLeft()){
+        //和下面的所有item复位结合的功能
+        if (main_data.getLeft()) {
             main_viewholder.left.setBackgroundResource(R.drawable.right);
-        }
-        else {
+        } else {
             main_viewholder.left.setBackgroundResource(R.drawable.left);
         }
-     if (main_viewholder.getView().getScrollX()!=0){
-         ((Itemview) main_viewholder.getView()).getScroller().startScroll(main_viewholder.getView().getScrollX(), 0, -main_viewholder.getView().getScrollX(), 0, 500);
-         main_viewholder.getView().invalidate();
-     }
+        if (main_viewholder.getView().getScrollX() != 0 && !main_data.getLeft()) {
+          main_viewholder.getView().scrollTo(0,0);
+//            System.out.println("Main_adapter"+this.getClass().getName()+main_viewholder.getLayoutPosition()+"    "+main_viewholder.getAdapterPosition());
+        }
 
         //给要输入内容的Edittext添加内容观察者，调用下方的方法
-        if (main_viewholder.zhanghao.getTag()==null) {
-            Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "zhanghao",main_data);
+        if (main_viewholder.zhanghao.getTag() == null) {
+            Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "zhanghao", main_data);
             main_viewholder.zhanghao.addTextChangedListener(main_textWatcher);
-            Cuncu cuncu=new Cuncu(main_textWatcher,position);
+            Cuncu cuncu = new Cuncu(main_textWatcher, position);
             main_viewholder.zhanghao.setTag(cuncu);
-        }else {
-            Cuncu cuncu=(Cuncu)main_viewholder.zhanghao.getTag();
-            if (cuncu.getPosition()!=position){
-                Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "zhanghao",main_data);
+        } else {
+            Cuncu cuncu = (Cuncu) main_viewholder.zhanghao.getTag();
+            if (cuncu.getPosition() != position) {
+                Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "zhanghao", main_data);
                 main_viewholder.zhanghao.removeTextChangedListener(cuncu.getMain_textWatcher());
                 main_viewholder.zhanghao.addTextChangedListener(main_textWatcher);
-                Cuncu cuncu1=new Cuncu(main_textWatcher,position);
+                Cuncu cuncu1 = new Cuncu(main_textWatcher, position);
                 main_viewholder.zhanghao.setTag(cuncu1);
             }
         }
         main_viewholder.zhanghao.setText(main_data.getZhanghao());
 
         //给要输入内容的Edittext添加内容观察者，调用下方的方法
-        if (main_viewholder.password.getTag()==null) {
-            Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "password",main_data);
+        if (main_viewholder.password.getTag() == null) {
+            Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "password", main_data);
             main_viewholder.password.addTextChangedListener(main_textWatcher);
-            Cuncu cuncu=new Cuncu(main_textWatcher,position);
+            Cuncu cuncu = new Cuncu(main_textWatcher, position);
             main_viewholder.password.setTag(cuncu);
-        }else {
-            Cuncu cuncu=(Cuncu)main_viewholder.password.getTag();
-            if (cuncu.getPosition()!=position){
-                Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "password",main_data);
+        } else {
+            Cuncu cuncu = (Cuncu) main_viewholder.password.getTag();
+            if (cuncu.getPosition() != position) {
+                Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "password", main_data);
                 main_viewholder.password.removeTextChangedListener(cuncu.getMain_textWatcher());
                 main_viewholder.password.addTextChangedListener(main_textWatcher);
-                Cuncu cuncu1=new Cuncu(main_textWatcher,position);
+                Cuncu cuncu1 = new Cuncu(main_textWatcher, position);
                 main_viewholder.password.setTag(cuncu1);
             }
         }
@@ -171,17 +173,33 @@ public class Main_adapter extends RecyclerView.Adapter {
         main_viewholder.left.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                allfuyuan(recyclerView,position);
+                allfuyuan(recyclerView, position);
+                //因为recyclerView.getChildCount();得不到所有的item 此方法作废
+//                if (lastposition!=-1){
+//                     int count=recyclerView.getChildCount();
+//                     if (lastposition+1<count){
+//                         Itemview itemview=(Itemview) recyclerView.getChildAt(lastposition);
+//                         itemview.findViewById(R.id.Main_left).setBackgroundResource(R.drawable.left);
+//                         itemview.getScroller().startScroll(itemview.getScrollX(),0,-itemview.getScrollX(),0);
+//                         itemview.postInvalidate();
+//                     }else {
+//                         Itemview itemview=(Itemview) recyclerView.getChildAt(lastposition%count);
+//                         itemview.findViewById(R.id.Main_left).setBackgroundResource(R.drawable.left);
+//                         itemview.getScroller().startScroll(itemview.getScrollX(),0,-itemview.getScrollX(),0);
+//                         itemview.postInvalidate();
+//                     }
+//                }
+//                lastposition=position;
                 if (!main_data.getLeft()) {
                     main_data.setLeft(true);
                     main_viewholder.left.setBackgroundResource(R.drawable.right);
-                    int[] zuobiao=new int[2];
+                    int[] zuobiao = new int[2];
                     main_viewholder.zhanghao.getLocationInWindow(zuobiao);
-                    int[] diyige=new int[2];
+                    int[] diyige = new int[2];
                     main_viewholder.zhanghao.getLocationOnScreen(diyige);
 //                    main_viewholder.getView().getLocationInWindow(diyige);
-                    System.out.println("diyige:"+diyige[0]+"sss"+diyige[1]);
-                    System.out.println("绝对坐标："+zuobiao[0]+"坐标二："+zuobiao[1]);
+                    System.out.println("diyige:" + diyige[0] + "sss" + diyige[1]);
+                    System.out.println("绝对坐标：" + zuobiao[0] + "坐标二：" + zuobiao[1]);
                     int left = main_viewholder.getView().getRight() - main_viewholder.zhanghao.getRight();
                     ((Itemview) main_viewholder.getView()).getScroller().startScroll(main_viewholder.getView().getScrollX(), 0, main_viewholder.zhanghao.getRight(), 0, 500);
                     main_viewholder.getView().invalidate();
@@ -205,7 +223,7 @@ public class Main_adapter extends RecyclerView.Adapter {
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        this.recyclerView=recyclerView;
+        this.recyclerView = recyclerView;
     }
 
 
@@ -242,16 +260,17 @@ public class Main_adapter extends RecyclerView.Adapter {
     }
 
     //给要输入内容的EditText生成内容观察者 并且设定位置信心
-    public Main_TextWatcher creat_main_textWatcher(int id, String key,Main_data main_data) {
+    public Main_TextWatcher creat_main_textWatcher(int id, String key, Main_data main_data) {
         Main_TextWatcher main_textWatcher = new Main_TextWatcher();
-        main_textWatcher.setXinxi(id, key,main_data);
+        main_textWatcher.setXinxi(id, key, main_data);
         return main_textWatcher;
     }
+
     //用于将所有划出的左滑子view 复原
-    public void allfuyuan(RecyclerView recyclerView,int position){
-        System.out.println("recyclerView.getChildCount();"+recyclerView.getChildCount());
-        for (int i=0;i<datas.size();i++){
-            if (datas.get(i).getLeft()&&i!=position){
+    public void allfuyuan(RecyclerView recyclerView, int position) {
+        System.out.println("recyclerView.getChildCount();" + recyclerView.getChildCount());
+        for (int i = 0; i < datas.size(); i++) {
+            if (datas.get(i).getLeft() && i != position) {
                 datas.get(i).setLeft(false);
                 //使用下面语句对第position位置item进行数据的重新绑定和刷新
                 notifyItemChanged(i);
@@ -268,7 +287,8 @@ public class Main_adapter extends RecyclerView.Adapter {
     public long getItemId(int position) {
         return super.getItemId(position);
     }
-    class Cuncu{
+
+    class Cuncu {
         private Main_TextWatcher main_textWatcher;
         private int position;
 

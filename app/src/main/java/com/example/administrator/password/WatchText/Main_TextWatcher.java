@@ -25,7 +25,7 @@ public class Main_TextWatcher implements android.text.TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        Log.d("Textwatch", s.toString());
+//        Log.d("Textwatch", s.toString());
     }
 
     @Override
@@ -36,7 +36,7 @@ public class Main_TextWatcher implements android.text.TextWatcher {
     @Override
     public void afterTextChanged(Editable s) {
 
-            Log.d("afterTextChanged", s.toString().trim());
+//            Log.d("afterTextChanged", s.toString().trim());
             if (s.toString().trim() == "" || s.toString().trim().length() == 0 || s.toString().trim().equals(null)) {
                 //空语句 不做任何事
             } else {

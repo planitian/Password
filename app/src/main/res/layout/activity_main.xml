@@ -61,7 +61,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/lightgray"
         app:layout_constraintTop_toBottomOf="@+id/Main_Toolbar"
         android:paddingLeft="10dp"
         >

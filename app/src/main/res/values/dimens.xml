@@ -19,4 +19,7 @@
     <!--item_content-->
     <dimen name="item_content_left_width">30dp</dimen>
 
+    <!--Decoration-->
+    <dimen name="Decoration_xiahuaxian">2dp</dimen>
+
 </resources>
