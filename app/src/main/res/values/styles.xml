@@ -11,4 +11,10 @@
     <style name="Mycheck" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:button">@drawable/checke</item>
     </style>
+
+    <style name="Edittext_foucusable" parent="Base.Widget.AppCompat.EditText">
+        <item name="android:inputType">text</item>
+        <item name="android:focusableInTouchMode">true</item>
+
+    </style>
 </resources>

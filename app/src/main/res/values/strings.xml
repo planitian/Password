@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Password</string>
+    <string name="app_name">密码本</string>
     <string name="all">全选</string>
     <string name="fanxuan">反选</string>
     <string name="del">删除</string>
@@ -9,5 +9,6 @@
     <string name="quxiao">取消</string>
     <string name="queding">确定</string>
     <string name="search">账号类型</string>
-
+    <string name="caozuo_zhanghao">复制账号</string>
+    <string name="caozuo_password">复制密码</string>
 </resources>

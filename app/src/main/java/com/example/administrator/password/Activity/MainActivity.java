@@ -1,8 +1,10 @@
 package com.example.administrator.password.Activity;
 
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,6 +24,7 @@ import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.example.administrator.password.Adapter.Main_adapter;
 import com.example.administrator.password.Bean.Main_data;
@@ -29,13 +33,14 @@ import com.example.administrator.password.Fragment.AddFragment;
 import com.example.administrator.password.ItemDecoration.Main_Decoration;
 import com.example.administrator.password.R;
 import com.example.administrator.password.View.Itemview;
+import com.example.administrator.password.View.Main_recycle;
 import com.example.administrator.password.WatchText.Main_TextWatcher;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AddFragment.AddCallback ,View.OnClickListener{
     private Toolbar toolbar;
-    private RecyclerView recyclerView;
+    private Main_recycle recyclerView;
     private Button rede;
     private Button add;
     private CheckBox main_all;
@@ -51,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
            super.handleMessage(msg);
            switch (msg.what){
                case 1:searchView.clearFocus();
+                   searchView.onActionViewCollapsed();
                      break;
            }
        }
@@ -63,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         toolbar = (Toolbar) findViewById(R.id.Main_Toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        recyclerView = (RecyclerView) findViewById(R.id.Main_recy);
+        recyclerView = findViewById(R.id.Main_recy);
         rede = (Button) findViewById(R.id.Main_rede);
         add = (Button) findViewById(R.id.Main_add);
         searchView=(SearchView)findViewById(R.id.searc);
@@ -74,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                  System.out.println("setOnQueryTextFocusChangeListener"+hasFocus);
+                 if (!hasFocus){
+                     searchView.onActionViewCollapsed();
+                 }
 
             }
         });
@@ -116,6 +125,7 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
                 datas.addAll(Maindao.Main_queryall());
                 main_adapter.notifyDataSetChanged();
                 handler.sendEmptyMessage(1);
+
                  System.out.println(">>>>>>>>>>>>"+this.getClass().getName()+searchView.isIconified());
                 return true;
             }
@@ -130,13 +140,25 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         main_del.setOnClickListener(this);
         //得到数据库中的所有数据 ，并以Bean的方式返回List<Main_data>
         datas = Maindao.Main_queryall();
-        main_adapter = new Main_adapter(this, datas);
+        main_adapter = new Main_adapter(MainActivity.this, datas);
+        main_adapter.setClipboardManager((ClipboardManager) getSystemService(CLIPBOARD_SERVICE));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayout.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(main_adapter);
+        recyclerView.setPopCallback(main_adapter);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 //        recyclerView.addItemDecoration(new DividerItemDecoration(MainActivity.this, LinearLayout.VERTICAL));
         recyclerView.addItemDecoration(new Main_Decoration(MainActivity.this));
+        recyclerView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                int position=recyclerView.getChildAdapterPosition(recyclerView.findChildViewUnder(event.getRawX(),event.getRawY()));
+
+//                Toast.makeText(MainActivity.this,"jj"+position,Toast.LENGTH_SHORT).show();
+                Log.d(MainActivity.class.getName(),"  "+position);
+                return false;
+            }
+        });
         Add_shijian(add);
         Rede_shijian(rede);
     }
@@ -172,6 +194,7 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
                 }
             }
         });
+
     }
 
 

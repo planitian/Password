@@ -14,7 +14,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_chouti_height"
             android:background="@color/white"
-            android:maxLines="1" />
+            android:maxLines="1"
+            style="@style/Edittext_foucusable"
+            />
 
         <EditText
             android:id="@+id/Main_password"
@@ -22,6 +24,8 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/Main_zhanghao"
             android:background="@color/yellow"
-            android:maxLines="1" />
+            android:maxLines="1"
+            style="@style/Edittext_foucusable"
+            />
     </RelativeLayout>
 </LinearLayout>

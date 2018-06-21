@@ -1,12 +1,17 @@
 package com.example.administrator.password.Adapter;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +20,15 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Scroller;
+import android.widget.Toast;
 
 import com.example.administrator.password.Activity.MainActivity;
 import com.example.administrator.password.Bean.Main_data;
 import com.example.administrator.password.R;
 import com.example.administrator.password.View.Itemview;
+import com.example.administrator.password.View.Main_recycle;
 import com.example.administrator.password.WatchText.Main_TextWatcher;
 
 import java.util.ArrayList;
@@ -30,18 +38,25 @@ import java.util.List;
  * Created by Administrator on 2018\5\18 0018.
  */
 
-public class Main_adapter extends RecyclerView.Adapter {
+public class Main_adapter extends RecyclerView.Adapter implements Main_recycle.PopCallback {
     private Context context;
     private List<Main_data> datas;
     private int[] colors = new int[4];
-    //    private Itemview view;
+    // private Itemview view;
     private Scroller scroller;
     private Boolean xuanze = false;
     private RecyclerView recyclerView;
     private int lastposition=-1;
-    private List<Integer> textwatch_fuyong = new ArrayList<>();
+    private PopupWindow popupWindow;
+    private int position_fuzhi=-1;
+    private int[] popup_width;
+    private ClipboardManager clipboardManager;
 
-    //    private Main_TextWatcher main_textWatcher;
+    public void setClipboardManager(ClipboardManager clipboardManager) {
+        this.clipboardManager = clipboardManager;
+    }
+
+    // private Main_TextWatcher main_textWatcher;
     public Main_adapter(Context context, List<Main_data> datas) {
         super();
         this.context = context;
@@ -145,7 +160,13 @@ public class Main_adapter extends RecyclerView.Adapter {
             }
         }
         main_viewholder.zhanghao.setText(main_data.getZhanghao());
-
+        main_viewholder.zhanghao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+                showPopupwindow(main_viewholder.zhanghao,position);
+            }
+        });
         //给要输入内容的Edittext添加内容观察者，调用下方的方法
         if (main_viewholder.password.getTag() == null) {
             Main_TextWatcher main_textWatcher = creat_main_textWatcher(main_data.getId(), "password", main_data);
@@ -174,6 +195,18 @@ public class Main_adapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 allfuyuan(recyclerView, position);
+                if (popupWindow==null){
+                    createpopwindow(context,main_viewholder.zhanghao,position);
+                }else {
+                    if (main_data.getLeft())
+                    {
+                        hide();
+                    }else {
+                        popupWindow.dismiss();
+                        showPopupwindow(main_viewholder.zhanghao,position);
+                    }
+                }
+
                 //因为recyclerView.getChildCount();得不到所有的item 此方法作废
 //                if (lastposition!=-1){
 //                     int count=recyclerView.getChildCount();
@@ -224,6 +257,13 @@ public class Main_adapter extends RecyclerView.Adapter {
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         this.recyclerView = recyclerView;
+    }
+
+    @Override
+    public void hide() {
+         if (popupWindow!=null){
+             popupWindow.dismiss();
+         }
     }
 
 
@@ -331,4 +371,64 @@ public class Main_adapter extends RecyclerView.Adapter {
 //        }
 //    }
 
+    //生成popwindow用于复制账号 密码
+    public void createpopwindow(final Context context, View par, final int position){
+        position_fuzhi=position;
+        LayoutInflater layoutInflater=LayoutInflater.from(context);
+        View view=layoutInflater.inflate(R.layout.caozuo,null);
+        popup_width=unDisplayViewSize(view);
+        Button fuzhi_zhanghao=(Button)view.findViewById(R.id.caozuo_fuzhi_zhanghao);
+        fuzhi_zhanghao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipData clipData=ClipData.newPlainText("zhanghao",datas.get(position_fuzhi).getZhanghao().trim());
+                System.out.println("Main_adapter createpopwindow "+position_fuzhi+datas.get(position_fuzhi).getZhanghao());
+                clipboardManager.setPrimaryClip(clipData);
+                Snackbar.make((View) (recyclerView.getParent()), "账号内容："+datas.get(position_fuzhi).getZhanghao(), Snackbar.LENGTH_SHORT)
+                       .show();
+            }
+        });
+        Button fuzhi_password=(Button)view.findViewById(R.id.caozuo_fuzhi_password);
+        fuzhi_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipData clipData=ClipData.newPlainText("password",datas.get(position_fuzhi).getPassword().trim());
+                System.out.println("Main_adapter createpopwindow "+position_fuzhi+datas.get(position_fuzhi).getPassword());
+                clipboardManager.setPrimaryClip(clipData);
+                Snackbar.make((View) (recyclerView.getParent()), "密码内容："+datas.get(position_fuzhi).getPassword(), Snackbar.LENGTH_SHORT)
+                        .show();
+            }
+        });
+        DisplayMetrics display= context.getResources().getDisplayMetrics();
+        popupWindow=new PopupWindow(view,ViewGroup.LayoutParams.WRAP_CONTENT,-2);
+        showPopupwindow(par,position);
+    }
+
+    //显示popupwindow，并重新定位
+    public  void showPopupwindow(View view,int position){
+        position_fuzhi=position;
+        if (!popupWindow.isShowing()){
+            int[] weizhi=new int[2];
+            view.getLocationOnScreen(weizhi);
+            if (popup_width[1]<weizhi[1]){
+                popupWindow.showAsDropDown(view,view.getWidth()/4,-3*view.getHeight()-20);
+            }else {
+                popupWindow.showAsDropDown(view,view.getWidth(),view.getHeight());
+            }
+
+        }
+    }
+
+
+    public int[] unDisplayViewSize(View view) {
+        int size[] = new int[2];
+        int width = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        int height = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        view.measure(width, height);
+        size[0] = view.getMeasuredWidth();
+        size[1] = view.getMeasuredHeight();
+        return size;
+    }
 }

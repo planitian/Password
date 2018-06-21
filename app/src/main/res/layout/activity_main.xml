@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
     tools:context="com.example.administrator.password.Activity.MainActivity">
+ <android.support.design.widget.AppBarLayout
+     android:layout_width="match_parent"
+     android:layout_height="@dimen/toolbar_height"
+     >
+     <ImageView
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:src="@color/maozi"
+         app:layout_scrollFlags="exitUntilCollapsed|scroll"
+         />
+ </android.support.design.widget.AppBarLayout>
+
+    <android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/Main_Toolbar"
@@ -39,6 +55,7 @@
            android:layout_centerHorizontal="true"
            app:queryHint="@string/search"
            android:layout_marginLeft="20dp"
+           android:focusableInTouchMode="false"
            />
 
        <Button
@@ -54,7 +71,7 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <android.support.v7.widget.RecyclerView
+    <com.example.administrator.password.View.Main_recycle
         android:id="@+id/Main_recy"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -65,7 +82,7 @@
         android:paddingLeft="10dp"
         >
 
-    </android.support.v7.widget.RecyclerView>
+    </com.example.administrator.password.View.Main_recycle>
 
     <LinearLayout
         android:id="@+id/Main_caozuo"
@@ -110,5 +127,6 @@
     </LinearLayout>
 
 
-
 </android.support.constraint.ConstraintLayout>
+
+</android.support.design.widget.CoordinatorLayout>

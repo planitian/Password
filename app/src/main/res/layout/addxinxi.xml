@@ -57,6 +57,7 @@
         app:layout_constraintLeft_toRightOf="@+id/Label_zhanghao"
         app:layout_constraintRight_toRightOf="parent"
         android:maxLines="1"
+        android:inputType="number"
         app:layout_constraintTop_toTopOf="@+id/Label_zhanghao"
         />
 
