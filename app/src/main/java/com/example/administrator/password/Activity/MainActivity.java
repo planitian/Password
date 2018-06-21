@@ -80,9 +80,13 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                  System.out.println("setOnQueryTextFocusChangeListener"+hasFocus);
-                 if (!hasFocus){
-                     searchView.onActionViewCollapsed();
+                 if ( searchView.getQuery().length()==0||searchView.getQuery().equals("")){
+                     if (!hasFocus){
+                         searchView.onActionViewCollapsed();
+                     }
                  }
+
+
 
             }
         });
@@ -91,28 +95,35 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
             @Override
             public boolean onQueryTextSubmit(String query) {
                 System.out.println("onQueryTextSubmit   "+query);
-                for (int i=0;i<datas.size();i++){
-                    if (datas.get(i).getLeixing().contains(query)){
-                        datas.remove(i);
-                        i--;
-                    }
-                }
-                main_adapter.notifyDataSetChanged();
+//                for (int i=0;i<datas.size();i++){
+//                    if (!datas.get(i).getLeixing().contains(query)){
+//                        datas.remove(i);
+//                        i--;
+//                    }
+//                }
+//                main_adapter.notifyDataSetChanged();
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 System.out.println("onQueryTextChange   "+newText);
-                datas.clear();
-                datas.addAll(Maindao.Main_queryall());
-                for (int i=0;i<datas.size();i++){
-                    if (!datas.get(i).getLeixing().contains(newText)){
-                        datas.remove(i);
-                        i--;
+                if (newText.isEmpty()||newText.length()==0||newText.equals("")){
+                    datas.clear();
+                    datas.addAll(Maindao.Main_queryall());
+                    main_adapter.notifyDataSetChanged();
+                }else {
+                    datas.clear();
+                    datas.addAll(Maindao.Main_queryall());
+                    for (int i = 0; i < datas.size(); i++) {
+                        if (!datas.get(i).getLeixing().contains(newText)) {
+                            datas.remove(i);
+                            main_adapter.notifyItemRemoved(i);
+                            i--;
+                        }
                     }
                 }
-                main_adapter.notifyDataSetChanged();
+//                main_adapter.notifyDataSetChanged();
                 return true;
             }
         });
