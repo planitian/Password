@@ -47,6 +47,8 @@ public class Maindao {
         contentValues.put("leixing", leixing);
         contentValues.put("zhanghao", zhanghao);
         contentValues.put("password", pass);
+        //long insert(String table, String nullColumnHack, ContentValues values)
+        //table 表名  nullColumnHack 表的列名  即字段名  是如果values为空的话，那么就会让nullColumHack的字段名 等于null 插入数据  
         long result = sqLiteDatabase.insert("Main", null, contentValues);
         sqLiteDatabase.close();
         myslqdata.close();
