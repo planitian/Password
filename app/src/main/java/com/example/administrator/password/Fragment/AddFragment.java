@@ -1,14 +1,11 @@
 package com.example.administrator.password.Fragment;
 
-import android.app.DialogFragment;
-import android.app.Fragment;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.administrator.password.Adapter.Main_adapter;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
+
 import com.example.administrator.password.Bean.Main_data;
 import com.example.administrator.password.Dao.Maindao;
 import com.example.administrator.password.R;

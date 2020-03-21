@@ -1,10 +1,11 @@
 package com.example.administrator.password.View;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
+
+import androidx.annotation.Nullable;
 
 /**
  * Created by Administrator on 2018\5\23 0023.

@@ -3,15 +3,8 @@ package com.example.administrator.password.Adapter;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.util.AttributeSet;
+
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,19 +12,18 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.Scroller;
-import android.widget.Toast;
 
-import com.example.administrator.password.Activity.MainActivity;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.administrator.password.Bean.Main_data;
 import com.example.administrator.password.R;
 import com.example.administrator.password.View.Itemview;
 import com.example.administrator.password.View.Main_recycle;
 import com.example.administrator.password.WatchText.Main_TextWatcher;
+import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

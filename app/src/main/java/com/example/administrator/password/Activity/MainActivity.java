@@ -1,30 +1,23 @@
 package com.example.administrator.password.Activity;
 
 import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.drawable.Drawable;
-import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.text.Editable;
+import android.os.Message;
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CursorAdapter;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.administrator.password.Adapter.Main_adapter;
 import com.example.administrator.password.Bean.Main_data;
@@ -32,9 +25,7 @@ import com.example.administrator.password.Dao.Maindao;
 import com.example.administrator.password.Fragment.AddFragment;
 import com.example.administrator.password.ItemDecoration.Main_Decoration;
 import com.example.administrator.password.R;
-import com.example.administrator.password.View.Itemview;
 import com.example.administrator.password.View.Main_recycle;
-import com.example.administrator.password.WatchText.Main_TextWatcher;
 
 import java.util.List;
 
@@ -153,7 +144,7 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
         datas = Maindao.Main_queryall();
         main_adapter = new Main_adapter(MainActivity.this, datas);
         main_adapter.setClipboardManager((ClipboardManager) getSystemService(CLIPBOARD_SERVICE));
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayout.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(main_adapter);
         recyclerView.setPopCallback(main_adapter);
@@ -180,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements AddFragment.AddCa
             @Override
             public void onClick(View v) {
                 AddFragment addFragment = new AddFragment();
-                addFragment.show(getFragmentManager(), "addFragment");
+                addFragment.show(getSupportFragmentManager(), "addFragment");
             }
         });
     }
